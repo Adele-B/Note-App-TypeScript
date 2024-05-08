@@ -1,4 +1,6 @@
-const CopyPlugin = require('copy-webpack-plugin');
+/* eslint-disable @typescript-eslint/no-var-requires */
+const autoprefixer = require('autoprefixer');
+// const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
@@ -8,7 +10,7 @@ module.exports = (env, argv) => {
   const devMode = argv.mode !== 'production';
 
   return {
-    entry: ['./src/index.ts', './src/assets/main.scss'],
+    entry: ['./src/index.tsx', './src/assets/main.scss'],
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].[contenthash].js',
@@ -41,11 +43,35 @@ module.exports = (env, argv) => {
             options: {
               presets: ['@babel/preset-typescript']
             }
-          },
+          }
         },
         {
           test: /\.(sa|sc|c)ss$/, // styles files
-          use: ['style-loader', 'css-loader', 'postcss-loader']
+          use: [
+            {
+              // Adds CSS to the DOM by injecting a `<style>` tag
+              loader: 'style-loader'
+            },
+            {
+              // Interprets `@import` and `url()` like `import/require()` and will resolve them
+              loader: 'css-loader'
+            },
+            {
+              // Loader for webpack to process CSS with PostCSS
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    autoprefixer
+                  ]
+                }
+              }
+            },
+            {
+              // Loads a SASS/SCSS file and compiles it to CSS
+              loader: 'sass-loader'
+            }
+          ]
         },
         {
           test: /\.(png|woff|woff2|eot|ttf|svg)$/, // to import images and fonts
@@ -55,14 +81,13 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, 'public', 'index.html'),
-        favicon: './src/assets/images/favicon.ico'
+        template: path.join(__dirname, 'public', 'index.html')
       }),
       // new CopyPlugin(
       //   {
       //     patterns: [
-      //       { from: 'src/assets/images', to: 'assets/images' }
-      //       { from: 'src/assets/scss', to: 'assets/scss' },
+      //       { from: 'src/assets/images', to: 'assets/images' },
+      //       { from: 'src/assets/scss', to: 'assets/scss' }
       //     ]
       //   }
       // ),
