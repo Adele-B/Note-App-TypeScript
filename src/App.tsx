@@ -9,6 +9,7 @@ import NewNote from './Pages/NewNote';
 import NoteList from './Pages/NoteList';
 import NoteLayout from './Layout/NoteLayout';
 import Note from './components/Note';
+import EditNote from './Pages/EditNote';
 
 const App = () => {
   const [notes, setNotes] = useLocalStorage<RawNote[]>('NOTES', []);
@@ -23,6 +24,15 @@ const App = () => {
     ]);
   };
 
+  const onEditNote = (id: string, { tags, ...data }: NoteData) => {
+    setNotes((prevNotes) => prevNotes.map((note) => {
+      if (note.id === id) {
+        return { ...note, ...data, tagIds: tags.map((tag) => tag.id) };
+      }
+      return note;
+    }));
+  };
+
   const addTag = (tag: Tag) => {
     setTags((prev) => [...prev, tag]);
   };
@@ -34,7 +44,7 @@ const App = () => {
         <Route path="/new" element={<NewNote submit={onCreateNote} onAddTag={addTag} availableTags={tags} />} />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
           <Route index element={<Note />} />
-          <Route path="edit" element={<h1>Edit</h1>} />
+          <Route path="/edit" element={<EditNote submit={onEditNote} onAddTag={addTag} availableTags={tags} />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
