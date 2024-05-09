@@ -44,7 +44,7 @@ const App = () => {
         <Route path="/new" element={<NewNote submit={onCreateNote} onAddTag={addTag} availableTags={tags} />} />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
           <Route index element={<Note />} />
-          <Route path="/edit" element={<EditNote submit={onEditNote} onAddTag={addTag} availableTags={tags} />} />
+          <Route path="edit" element={<EditNote submit={onEditNote} onAddTag={addTag} availableTags={tags} />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
