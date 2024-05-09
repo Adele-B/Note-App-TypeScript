@@ -24,6 +24,10 @@ const App = () => {
     ]);
   };
 
+  const onDeleteNote = (id: string) => {
+    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+  };
+
   const onEditNote = (id: string, { tags, ...data }: NoteData) => {
     setNotes((prevNotes) => prevNotes.map((note) => {
       if (note.id === id) {
@@ -43,7 +47,7 @@ const App = () => {
         <Route path="/" element={<NoteList availableTags={tags} notes={notesWithTags} />} />
         <Route path="/new" element={<NewNote submit={onCreateNote} onAddTag={addTag} availableTags={tags} />} />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
-          <Route index element={<Note />} />
+          <Route index element={<Note onDelete={onDeleteNote} />} />
           <Route path="edit" element={<EditNote submit={onEditNote} onAddTag={addTag} availableTags={tags} />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
