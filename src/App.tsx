@@ -41,10 +41,23 @@ const App = () => {
     setTags((prev) => [...prev, tag]);
   };
 
+  const editTag = (id: string, label: string) => {
+    setTags((prevTags) => prevTags.map((tag) => {
+      if (tag.id === id) {
+        return { ...tag, label };
+      }
+      return tag;
+    }));
+  };
+
+  const deleteTag = (id: string) => {
+    setTags((prevTags) => prevTags.filter((tag) => tag.id !== id));
+  };
+
   return (
     <Container className="my-4">
       <Routes>
-        <Route path="/" element={<NoteList availableTags={tags} notes={notesWithTags} />} />
+        <Route path="/" element={<NoteList availableTags={tags} deleteTag={deleteTag} editTag={editTag} notes={notesWithTags} />} />
         <Route path="/new" element={<NewNote submit={onCreateNote} onAddTag={addTag} availableTags={tags} />} />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
           <Route index element={<Note onDelete={onDeleteNote} />} />

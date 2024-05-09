@@ -6,13 +6,19 @@ import {
 import ReactSelect from 'react-select';
 import { SimplifiedNote, Tag } from '../constants/Types/NoteTypes';
 import NoteCard from '../components/NoteCard';
+import EditTagsModal from '../components/EditTagsModal';
 
 type NoteListProps = {
   availableTags: Tag[]
+  deleteTag: (id: string) => void
+  editTag: (id: string, label: string) => void
   notes: SimplifiedNote[]
 }
 
-const NoteList = ({ availableTags, notes }: NoteListProps) => {
+const NoteList = ({
+  availableTags, deleteTag, editTag, notes
+}: NoteListProps) => {
+  const [editTagsModalIsOpen, setEditTagsModalIsOpen] = useState(false);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [title, setTitle] = useState('');
 
@@ -34,7 +40,7 @@ const NoteList = ({ availableTags, notes }: NoteListProps) => {
             <Link to="/new">
               <Button variant="primary">Create</Button>
             </Link>
-            <Button variant="outline-secondary">Edit Tags</Button>
+            <Button onClick={() => setEditTagsModalIsOpen(true)} variant="outline-secondary">Edit Tags</Button>
           </Stack>
         </Col>
       </Row>
@@ -68,6 +74,7 @@ const NoteList = ({ availableTags, notes }: NoteListProps) => {
           </Col>
         ))}
       </Row>
+      <EditTagsModal availableTags={availableTags} deleteTag={deleteTag} editTag={editTag} handleClose={() => setEditTagsModalIsOpen(false)} show={editTagsModalIsOpen} />
     </>
   );
 };
