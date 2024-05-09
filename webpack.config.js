@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const autoprefixer = require('autoprefixer');
-// const CopyPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
@@ -83,14 +83,14 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: path.join(__dirname, 'public', 'index.html')
       }),
-      // new CopyPlugin(
-      //   {
-      //     patterns: [
-      //       { from: 'src/assets/images', to: 'assets/images' },
-      //       { from: 'src/assets/scss', to: 'assets/scss' }
-      //     ]
-      //   }
-      // ),
+      new CopyPlugin(
+        {
+          patterns: [
+            // { from: 'src/assets/images', to: 'assets/images' },
+            { from: 'src/assets/scss', to: 'assets/scss' }
+          ]
+        }
+      ),
       // This allows to pass env vars on runtime, see /nginx/run.sh and Dockerfile
       new webpack.EnvironmentPlugin({
         DATA_API_BASE_URL: 'http://localhost:5000'
