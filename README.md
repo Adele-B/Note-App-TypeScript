@@ -1,0 +1,1 @@
+Note taking project using TypeScript and React
