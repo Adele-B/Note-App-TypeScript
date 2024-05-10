@@ -81,7 +81,7 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, 'public', 'index.html')
+        template: path.join(__dirname, 'index.html')
       }),
       new CopyPlugin(
         {
