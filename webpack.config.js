@@ -33,7 +33,7 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.(ts|tsx)$/,
+          test: /\.(js|ts|tsx)$/,
           exclude: /node_modules/,
           resolve: {
             extensions: ['.js', '.ts', '.tsx']
@@ -41,7 +41,7 @@ module.exports = (env, argv) => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-typescript']
+              presets: ['@babel/preset-env', '@babel/preset-typescript']
             }
           }
         },
@@ -81,7 +81,7 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, 'index.html')
+        template: './index.html'
       }),
       new CopyPlugin(
         {
